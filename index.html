@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Yeezy Aldi Experience</title>
+    <style>
+        body {
+            background-image: url('https://storage.googleapis.com/businessinfo_cz/2024/01/66b1765c-aldi-obchod-nakupovani-budova-znacka-shutterstock_1838041480-scaled.jpg');
+            background-size: cover;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        #fent-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 32px;
+            background: rgba(0,0,0,0.7);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        #click-button {
+            width: 300px;
+            height: 300px;
+            cursor: pointer;
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: 0.1s transform;
+        }
+
+        #click-button:active {
+            transform: translateX(-50%) scale(0.95);
+        }
+
+        .shop {
+            position: fixed;
+            top: 150px;
+            left: 20px;
+            background: rgba(0, 51, 153, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .shop-item {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .shop-item img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+        }
+
+        #rah-timer {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: gold;
+            color: black;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="fent-counter">🌊 Fent: 420</div>
+    <div id="rah-timer">Eye of Rah: 30s</div>
+
+    <div class="shop">
+        <h2>Yeezy Shop</h2>
+        <div class="shop-item">
+            <img src="https://i.imgflip.com/53t5bi.png" onclick="buyGalaxyGas()">
+            <span>Galaxy Gas (1 fent/s)<br>Price: 500</span>
+        </div>
+        <div class="shop-item">
+            <img src="https://tr.rbxcdn.com/180DAY-b03e7e49712b632e4ff2b224f26eadf5/420/420/Hat/Webp/noFilter" onclick="activateRah()">
+            <span>Eye of Rah (2x for 30s)<br>Price: 2000</span>
+        </div>
+        <div class="shop-item">
+            <img src="https://live-production.wcms.abc-cdn.net.au/cece528f0eabb32891451328798caf89?impolicy=wcms_crop_resize&cropH=2808&cropW=2808&xPos=897&yPos=0&width=862&height=862" onclick="buyClickBoost()">
+            <span>+3 Click Power<br>Price: 1500</span>
+        </div>
+    </div>
+
+    <img id="click-button" src="https://i.imgflip.com/53t5bi.png" onclick="clickFent()">
+
+    <script>
+        let fent = 420;
+        let clickPower = 1;
+        let autoFent = 0;
+        let rahActive = false;
+        let rahTimeLeft = 0;
+        let prices = { galaxy: 500, rah: 2000, click: 1500 };
+
+        function updateCounter() {
+            document.getElementById('fent-counter').textContent = `🌊 Fent: ${Math.floor(fent)}`;
+        }
+
+        function clickFent() {
+            fent += clickPower * (rahActive ? 2 : 1);
+            updateCounter();
+        }
+
+        function buyGalaxyGas() {
+            if(fent >= prices.galaxy) {
+                fent -= prices.galaxy;
+                autoFent += 1;
+                prices.galaxy *= 1.5;
+                updateCounter();
+            }
+        }
+
+        function buyClickBoost() {
+            if(fent >= prices.click) {
+                fent -= prices.click;
+                clickPower += 3;
+                prices.click *= 2;
+                updateCounter();
+            }
+        }
+
+        function activateRah() {
+            if(fent >= prices.rah && !rahActive) {
+                fent -= prices.rah;
+                rahActive = true;
+                document.getElementById('click-button').src = 'https://media1.tenor.com/m/9PKH6_KDaccAAAAd/the-eye-of-ra-jeremiah-springfield.gif';
+                document.getElementById('rah-timer').style.display = 'block';
+                
+                let timeLeft = 30;
+                const timerInterval = setInterval(() => {
+                    timeLeft--;
+                    document.getElementById('rah-timer').textContent = `Eye of Rah: ${timeLeft}s`;
+                    if(timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        rahActive = false;
+                        document.getElementById('click-button').src = 'https://i.imgflip.com/53t5bi.png';
+                        document.getElementById('rah-timer').style.display = 'none';
+                    }
+                }, 1000);
+                
+                updateCounter();
+            }
+        }
+
+        // Game loop
+        setInterval(() => {
+            fent += autoFent * (rahActive ? 2 : 1);
+            updateCounter();
+        }, 1000);
+    </script>
+</body>
+</html>
